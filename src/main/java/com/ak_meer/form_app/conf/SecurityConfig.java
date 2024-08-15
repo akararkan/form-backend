@@ -5,6 +5,7 @@ import com.ak_meer.form_app.exceptions.JwtAccessDeniedHandler;
 import com.ak_meer.form_app.exceptions.JwtAuthenticationEntryPoint;
 import com.ak_meer.form_app.jwt.JWTAuthenticationFilter;
 import com.ak_meer.form_app.jwt.JwtTokenProvider;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -53,6 +54,15 @@ public class SecurityConfig {
                 .exceptionHandling(ex->{
                     ex.accessDeniedHandler(jwtAccessDeniedHandler);
                     ex.authenticationEntryPoint(jwtAuthenticationEntryPoint);
+                })
+                .logout(logoutConfigurer ->{
+                    logoutConfigurer.logoutUrl("/api/v1/user/logout");
+                    logoutConfigurer.logoutSuccessHandler((request, response, authentication) -> {
+                                response.setStatus(HttpServletResponse.SC_OK);
+                    });
+                    logoutConfigurer.invalidateHttpSession(true)
+                            .deleteCookies("JSESSIONID");
+
                 })
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

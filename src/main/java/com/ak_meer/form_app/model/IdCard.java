@@ -22,6 +22,6 @@ public class IdCard {
     private String city;
     private Integer age;
     private String department;
-
+    private String uniqueToken; // Added unique token field
 
 }

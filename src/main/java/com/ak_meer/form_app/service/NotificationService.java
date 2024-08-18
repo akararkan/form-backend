@@ -71,6 +71,6 @@ public class NotificationService {
         sendEmail(userResponse.getEmail(), subject, emailBody.toString());
 
         // Sending SMS with question and answer summary
-        sendSms(userResponse.getPhone(), smsBody.toString());
+//        sendSms(userResponse.getPhone(), smsBody.toString());
     }
 }
